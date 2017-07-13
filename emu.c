@@ -134,37 +134,33 @@ void process_jump(uint8_t inst) {
     }
 }
 
-int main() {
+int main(int argc, char** argv) {
     init();
-    print_state();
-    prgm[0] = 0x3 | (1 << 7);
-    prgm[1] = 1;
-    prgm[2] = 0xff;
-    while(iptr != 0xff)
+    int file_read_successful = 1;
+    if (argc > 1)
+        file_read_successful = read_program(argv[1]);
+    if (file_read_successful)
     {
-        uint8_t inst = prgm[iptr];
-        if (BIT(inst, 7)) // ld x;
+        while(iptr != 2)
         {
-            reg[0] = 0x7f & inst;
+            uint8_t inst = prgm[iptr];
+            if (BIT(inst, 7))       // load operation
+                reg[0] = 0x7f & inst;
+            else if (OP(inst) == 0) // arithmetic operation
+                process_arithmetic(inst);
+            else if (OP(inst) == 1) // memory operation
+                process_memory(inst);
+            else if (OP(inst) == 2) // jump operation
+            {
+                process_jump(inst);
+                continue;   // the loop is started from the top to avoid
+            }               // the IP increment.
+            else
+                 printf("INVALID INSTRUCTION #%d.\n", iptr);
             iptr++;
         }
-        else if (OP(inst) == 0) // arithmetic operation
-        {
-            process_arithmetic(inst);
-            iptr++;
-        }
-        else if (OP(inst) == 1) // memory operation
-        {
-            process_memory(inst);
-            iptr++;
-        }
-        else if (OP(inst) == 2) // jump operation
-            process_jump(inst);
-        else {
-            printf("INVALID INSTRUCTION #%d.\n", iptr);
-            iptr++;
-        }
+        print_register_state();
+        print_memory_state();
     }
-    print_state();
 }
 
