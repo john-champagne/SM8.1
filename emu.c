@@ -15,13 +15,38 @@ int8_t reg[4];
 
 unsigned int iptr;
 
-void print_state() {
-    printf("reg A = %d\n", reg[0]);
-    printf("reg B = %d\n", reg[1]);
-    printf("reg C = %d\n", reg[2]);
-    printf("reg D = %d\n", reg[3]);
+// prints the values in the registers
+void print_register_state() {
+    printf("A: 0x%02x\n", reg[0]);
+    printf("B: 0x%02x\n", reg[1]);
+    printf("C: 0x%02x\n", reg[2]);
+    printf("D: 0x%02x\n", reg[3]);
 }
 
+// prints the memory in a readable fashion.
+void print_memory_state() {
+    int i;
+    for (i = 0; i < 256; i++)
+        printf("0x%02x: %02x\n", i, 0xff & mem[i]);
+}
+
+// reads a program file into the prgm array
+int read_program(char* filename) {
+    FILE* in_file = fopen(filename, "rb");
+    int i;
+    if (in_file == NULL)
+    {
+        printf("ERROR opening program file. Exiting...\n");
+        return 0;
+    }
+    for (i = 0; i < 256; i++){
+        int c = getc(in_file);
+        if (c == EOF)
+            break;
+        prgm[i] = c;
+    }
+    return 1; 
+}
 
 void init() {
     memset(mem, 0, 256);
