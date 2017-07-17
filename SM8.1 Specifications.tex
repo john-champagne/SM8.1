@@ -44,10 +44,15 @@ $?$ & Conditional. Only do the following if the former is true.& $3 < 5 ? \mathr
 
 \end{tabular}
 
-\begin{tabular}{c|l|c}
+\begin{tabular}{|l | l | l |}
+\hline
+\multicolumn{3}{|c|}{ \textbf{Instruction Set}} \\
+\hline
 \textbf{bin} & \textbf{inst} & \textbf{asm}\\
 \hline 
 $1\,xxxxxxx$ & $x \rightarrow A$ & ld x;  \\
+\hline
+$000\,xxx\,x_x x_x$&\multicolumn{2}{c|}{ \textbf{Arithmetic Instructions}} \\
 \hline
 $000\,000\,x_x x_x$ & $A + R_x \rightarrow A$ & add A, X; \\
 $000\,001\,x_x x_x$ & $A - R_x \rightarrow A$ & sub A, X; \\
@@ -57,10 +62,14 @@ $000\,100\, x_x x_x$ & $A \bigotimes R_x \rightarrow A$ & xor A, X; \\
 $000\,101\, x_x x_x$ & $A >> R_x \rightarrow A$ & rsh A, X; \\
 $000\,110\, x_x x_x$ & $A << R_x \rightarrow A$ & lsh A, X; \\
 \hline
+$001\,xxx\,x_x x_x$&\multicolumn{2}{c|}{ \textbf{Memory Instructions}} \\
+\hline
 $001\,000\, x_x x_x$ & $[R_x] \rightarrow A$ & rd X; \\
 $001\,001\, x_x x_x$ & $A \rightarrow [R_x]$ & wr X; \\
 $001\,010\, x_x x_x$ & $R_x \rightarrow A$ & mov X, A; \\
 $001\,011\, x_x x_x$ & $A \rightarrow R_x$ & mov A, X; \\
+\hline
+$010\,xxx\,x_x x_x$&\multicolumn{2}{c|}{ \textbf{Conditional Instructions}} \\
 \hline
 $010\,000\, x_x x_x$ & $A > 0 \,?\, \mathrm{jmp}(R_x)$ & jg X; \\
 $010\,001\, x_x x_x$ & $A \geq 0 \,?\, \mathrm{jmp}(R_x)$ & jge X; \\
@@ -70,6 +79,7 @@ $010\,100\, x_x x_x$ & $A \leq 0 \,?\, \mathrm{jmp}(R_x)$ & jle X; \\
 $010\,101\, x_x x_x$ & $A_u > 0 \,?\, \mathrm{jmp}(R_x)$ & jgu X; \\
 $010\,110\, x_x x_x$ & $A_u \geq 0 \,?\, \mathrm{jmp}(R_x)$ & jgeu X; \\
 $010\,111\, x_x x_x$ & $\mathrm{jmp}(R_x)$ & jmp X; \\
+\hline
 \end{tabular}
 
 
