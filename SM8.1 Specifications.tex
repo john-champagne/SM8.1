@@ -81,6 +81,34 @@ $010\,110\, x_x x_x$ & $A_u \geq 0 \,?\, \mathrm{jmp}(R_x)$ & jgeu X; \\
 $010\,111\, x_x x_x$ & $\mathrm{jmp}(R_x)$ & jmp X; \\
 \hline
 \end{tabular}
+\section{Assembly Language}
+The assembly language of the SM8.1 is designed to be both simple and farmiliar for those with assembly language experience. A full list of assembly instructions is in the instruction set table provided.
+\newpage
+\subsection{Comments}
+A comment will start with the ';' character, as is custom for most assembly languages. Anything after the ';' will be ignored by the assembler.
+\subsection{Instruction Syntax}
+An instruction will take up a single line of code, there can only be one instruction per line of code.
 
+All whitespace, except that which seperates keywords, will be removed by the preprocessor.
+\begin{verbatim}
+Before preprocessor:
+; store the number 100 into register A
+ld      0x64
+
+After preprocessor:
+ld 0x64
+\end{verbatim}
+\subsection{Jumps}
+Jumping points are defined by a keyword, followed by a ':'. This will keep track of the position in the program of the following line of code. After this, the keyword can be treated as an 8 bit constant.
+\begin{verbatim}
+loop_a:
+   ...
+   ...
+sto D
+throw loop_a
+jg D
+\end{verbatim}
+It is also possible to use the ld instruction with the constant, however this will truncate the 7th bit, and is not advisable.
+\subsection{Variables}
 
 \end{document}
