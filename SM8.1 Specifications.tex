@@ -1,5 +1,10 @@
 \documentclass[11pt]{article}
+	\addtolength{\oddsidemargin}{-.5in}
+	\addtolength{\evensidemargin}{-.5in}
+	\addtolength{\textwidth}{1.75in}
 
+	\addtolength{\topmargin}{-.875in}
+	\addtolength{\textheight}{1.75in}
 \title{\textbf{SM8.1 Specifications}\\Simple Microprocessor 8-Bit\\Version 1.0}
 \author{John Champagne}
 \date{\today}
@@ -15,7 +20,7 @@ $A$ serves as the primary register, while B,C, and D are general purpose registe
 The address space of the memory is 8 bits wide, which yields a full 256 memory locations, each 8 bits wide. This gives a total of 256 bytes of RAM.
 \subsection{ROM}
 The ROM is similar to the RAM. 8 bits of address space and 256 bytes of ROM, each representing an instruction. There is an 8 bit register called the instruction pointer ($IP$) which points to the current instruction.
-\newpage
+
 \section{Instruction Set}
 \subsection{Overview}
 The 8 bit instructions are organized like so.
@@ -24,7 +29,10 @@ $$\big[7\ 6\ 5\ 4\ 3\ 2\ 1\ 0\big]$$
 
 Bit 7 differentiates between a load instruction and a computation instruction. Bits 6-2 represent OP codes. Bits 1-0 represent a register to pass as an argument.
 \subsection{Instruction Table}
-\begin{tabular}{l | l | l}
+\begin{tabular}{|l | l | l|}
+\hline
+\multicolumn{3}{|c|}{ \textbf{Instruction Set Key}} \\
+\hline
 Symbol & Meaning & Example\\
 \hline
 $A$,$B$,$C$,$D$ & A specific register.\\
@@ -41,48 +49,48 @@ $>>$ & Logical right shift.& $110 >> 2 = 001$\\
 $<<$ & Logical left shift. & $101 << 1 = 010$\\
 $\mathrm{jmp}(R_x)$ & Change the instruction pointer to the value in $R_x$&\\
 $?$ & Conditional. Only do the following if the former is true.& $3 < 5 ? \mathrm{jmp}(R_x)$\\
-
+\hline
 \end{tabular}
-
+\\ \\ \\
 \begin{tabular}{|l | l | l |}
 \hline
 \multicolumn{3}{|c|}{ \textbf{Instruction Set}} \\
 \hline
 \textbf{bin} & \textbf{inst} & \textbf{asm}\\
 \hline 
-$1\,xxxxxxx$ & $x \rightarrow A$ & ld x;  \\
+$1\,xxxxxxx$ & $x \rightarrow A$ & ld x  \\
 \hline
 $000\,xxx\,x_x x_x$&\multicolumn{2}{c|}{ \textbf{Arithmetic Instructions}} \\
 \hline
-$000\,000\,x_x x_x$ & $A + R_x \rightarrow A$ & add A, X; \\
-$000\,001\,x_x x_x$ & $A - R_x \rightarrow A$ & sub A, X; \\
-$000\,010\,x_x x_x$ & $A | R_x \rightarrow A$ & or A, X; \\
-$000\,011\, x_x x_x$ & $A \& R_x \rightarrow A$ & and A, X; \\
-$000\,100\, x_x x_x$ & $A \bigotimes R_x \rightarrow A$ & xor A, X; \\
-$000\,101\, x_x x_x$ & $A >> R_x \rightarrow A$ & rsh A, X; \\
-$000\,110\, x_x x_x$ & $A << R_x \rightarrow A$ & lsh A, X; \\
+$000\,000\,x_x x_x$ & $A + R_x \rightarrow A$ & add X \\
+$000\,001\,x_x x_x$ & $A - R_x \rightarrow A$ & sub X \\
+$000\,010\,x_x x_x$ & $A | R_x \rightarrow A$ & or X \\
+$000\,011\, x_x x_x$ & $A \& R_x \rightarrow A$ & and X \\
+$000\,100\, x_x x_x$ & $A \bigotimes R_x \rightarrow A$ & xor X \\
+$000\,101\, x_x x_x$ & $A >> R_x \rightarrow A$ & rsh X \\
+$000\,110\, x_x x_x$ & $A << R_x \rightarrow A$ & lsh X \\
 \hline
 $001\,xxx\,x_x x_x$&\multicolumn{2}{c|}{ \textbf{Memory Instructions}} \\
 \hline
-$001\,000\, x_x x_x$ & $[R_x] \rightarrow A$ & rd X; \\
-$001\,001\, x_x x_x$ & $A \rightarrow [R_x]$ & wr X; \\
-$001\,010\, x_x x_x$ & $R_x \rightarrow A$ & mov X, A; \\
-$001\,011\, x_x x_x$ & $A \rightarrow R_x$ & mov A, X; \\
+$001\,000\, x_x x_x$ & $[R_x] \rightarrow A$ & rd X \\
+$001\,001\, x_x x_x$ & $A \rightarrow [R_x]$ & wr X \\
+$001\,010\, x_x x_x$ & $R_x \rightarrow A$ & mov X,A \\
+$001\,011\, x_x x_x$ & $A \rightarrow R_x$ & mov A,X \\
 \hline
 $010\,xxx\,x_x x_x$&\multicolumn{2}{c|}{ \textbf{Conditional Instructions}} \\
 \hline
-$010\,000\, x_x x_x$ & $A > 0 \,?\, \mathrm{jmp}(R_x)$ & jg X; \\
-$010\,001\, x_x x_x$ & $A \geq 0 \,?\, \mathrm{jmp}(R_x)$ & jge X; \\
-$010\,010\, x_x x_x$ & $A = 0 \,?\, \mathrm{jmp}(R_x)$ & je X; \\
-$010\,011\, x_x x_x$ & $A < 0 \,?\, \mathrm{jmp}(R_x)$ & jl X; \\
-$010\,100\, x_x x_x$ & $A \leq 0 \,?\, \mathrm{jmp}(R_x)$ & jle X; \\
-$010\,101\, x_x x_x$ & $A_u > 0 \,?\, \mathrm{jmp}(R_x)$ & jgu X; \\
-$010\,110\, x_x x_x$ & $A_u \geq 0 \,?\, \mathrm{jmp}(R_x)$ & jgeu X; \\
-$010\,111\, x_x x_x$ & $\mathrm{jmp}(R_x)$ & jmp X; \\
+$010\,000\, x_x x_x$ & $A > 0 \,?\, \mathrm{jmp}(R_x)$ & jg X \\
+$010\,001\, x_x x_x$ & $A \geq 0 \,?\, \mathrm{jmp}(R_x)$ & jge X \\
+$010\,010\, x_x x_x$ & $A = 0 \,?\, \mathrm{jmp}(R_x)$ & je X \\
+$010\,011\, x_x x_x$ & $A < 0 \,?\, \mathrm{jmp}(R_x)$ & jl X \\
+$010\,100\, x_x x_x$ & $A \leq 0 \,?\, \mathrm{jmp}(R_x)$ & jle X \\
+$010\,101\, x_x x_x$ & $A_u > 0 \,?\, \mathrm{jmp}(R_x)$ & jgu X \\
+$010\,110\, x_x x_x$ & $A_u \geq 0 \,?\, \mathrm{jmp}(R_x)$ & jgeu X \\
+$010\,111\, x_x x_x$ & $\mathrm{jmp}(R_x)$ & jmp X \\
 \hline
 \end{tabular}
 \section{Assembly Language}
-The assembly language of the SM8.1 is designed to be both simple and farmiliar for those with assembly language experience. A full list of assembly instructions is in the instruction set table provided.
+The assembly language of the SM8.1 is designed to be both simple and familiar for those with assembly language experience. A full list of assembly instructions is in the instruction set table provided.
 \newpage
 \subsection{Comments}
 A comment will start with the ';' character, as is custom for most assembly languages. Anything after the ';' will be ignored by the assembler.
@@ -109,6 +117,5 @@ throw loop_a
 jg D
 \end{verbatim}
 It is also possible to use the ld instruction with the constant, however this will truncate the 7th bit, and is not advisable.
-\subsection{Variables}
 
 \end{document}
