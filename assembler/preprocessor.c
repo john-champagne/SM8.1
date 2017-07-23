@@ -6,6 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "preprocessor.h"
+#include "processor.h"
+
 // allocates a string.
 char* alloc_string(char* str) {
     char* out = (char*)malloc(sizeof(char) * (strlen(str) + 1));
@@ -15,15 +18,15 @@ char* alloc_string(char* str) {
 
 // processes a line, removing whitespace and comments.
 char* preprocess_line(char* line) {
-    char out[1024];
+    if (isspace(line[0]))
+        return preprocess_line(next_word(line)); // this removes all whitespace
+    char out[1024];                              // at the begining of the line
     int len = strlen(line);
     int i, j = 0;
     int whitespace_running = 0;
     for (i = 0; i < len; i++)
     {
         if (isspace(line[i])){  // If a character is whitespace.
-            if (i == 0)
-                continue;   // If its the first character, don't place it.
             if (whitespace_running) 
                 continue;   // If the whitespace is running 
                             // (i.e. 2 spaces in a row) don't place it
