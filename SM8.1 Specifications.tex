@@ -49,6 +49,7 @@ $>>$ & Logical right shift.& $110 >> 2 = 001$\\
 $<<$ & Logical left shift. & $101 << 1 = 010$\\
 $\mathrm{jmp}(R_x)$ & Change the instruction pointer to the value in $R_x$&\\
 $?$ & Conditional. Only do the following if the former is true.& $3 < 5 ? \mathrm{jmp}(R_x)$\\
+$\mathrm{uload}[R_x]$ & Loads the next instruction into $R_x$ & \\
 \hline
 \end{tabular}
 \\ \\ \\
@@ -87,6 +88,10 @@ $010\,100\, x_x x_x$ & $A \leq 0 \,?\, \mathrm{jmp}(R_x)$ & jle X \\
 $010\,101\, x_x x_x$ & $A_u > 0 \,?\, \mathrm{jmp}(R_x)$ & jgu X \\
 $010\,110\, x_x x_x$ & $A_u \geq 0 \,?\, \mathrm{jmp}(R_x)$ & jgeu X \\
 $010\,111\, x_x x_x$ & $\mathrm{jmp}(R_x)$ & jmp X \\
+\hline
+$011\,xxx\,x_x x_x$&\multicolumn{2}{c|}{ \textbf{Misc. Instructions}} \\
+\hline
+$011\,000\, x_x x_x$ & $\mathrm{uload}(R_x)$ & uld X \\
 \hline
 \end{tabular}
 \section{Assembly Language}

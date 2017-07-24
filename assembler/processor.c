@@ -16,7 +16,7 @@ char* keywords[KEYWORDS] = {"add", "sub", "or", "and",
                             "xor", "rsh", "lsh",
                             "rd", "wr", "jgeu",
                             "jge", "jgu", "jg", "je", "jle",
-                            "jl", "jmp"};
+                            "jl", "jmp", "uld"};
 
 // table of opcodes that corespond to the simple keywords
 // in the table above.
@@ -26,7 +26,7 @@ uint8_t keyword_opcode[KEYWORDS] = {    0x00, 0x04, 0x08,
                                         0x18, 0x20, 0x24,
                                         0x58, 0x44, 0x54,
                                         0x40, 0x48, 0x50,
-                                        0x4c, 0x5c };
+                                        0x4c, 0x5c, 0x60 };
 
 // checks if the string 'key' is at the current
 // position in source.

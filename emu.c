@@ -12,6 +12,7 @@
 int8_t mem[256];
 uint8_t prgm[256];
 int8_t reg[4];
+int uload = -1;
 
 unsigned int iptr;
 
@@ -134,6 +135,13 @@ void process_jump(uint8_t inst) {
     }
 }
 
+void process_misc(uint8_t inst)
+{
+    int op = 0x3 & (inst >> 2);
+    int rx = 0x3 & inst;
+    if (op == 0)
+        uload = rx;
+}
 int main(int argc, char** argv) {
     init();
     int file_read_successful = 1;
@@ -144,7 +152,11 @@ int main(int argc, char** argv) {
         while(iptr != 2)
         {
             uint8_t inst = prgm[iptr];
-            if (BIT(inst, 7))       // load operation
+            if (uload != -1) {
+                reg[uload] = inst;
+                uload = -1;
+            }
+            else if (BIT(inst, 7))       // load operation
                 reg[0] = 0x7f & inst;
             else if (OP(inst) == 0) // arithmetic operation
                 process_arithmetic(inst);
@@ -156,7 +168,7 @@ int main(int argc, char** argv) {
                 continue;   // the loop is started from the top to avoid
             }               // the IP increment.
             else
-                 printf("INVALID INSTRUCTION #%d.\n", iptr);
+                process_misc(inst);
             iptr++;
         }
         print_register_state();
