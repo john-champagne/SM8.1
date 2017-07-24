@@ -149,8 +149,8 @@ int main(int argc, char** argv) {
         file_read_successful = read_program(argv[1]);
     if (file_read_successful)
     {
-        while(iptr != 2)
-        {
+        while(prgm[iptr] != 0x2c)   // program has hard stop at 
+        {                           // 0x2c instruction
             uint8_t inst = prgm[iptr];
             if (uload != -1) {
                 reg[uload] = inst;

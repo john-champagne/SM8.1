@@ -33,6 +33,6 @@ int main(int argc, char** argv) {
     int i;
     for (i = 0; i < maxindex; i++) {
         int inst = assemble(preprocessed_lines[i]);
-        printf("[%s] -> 0x%02x\n", preprocessed_lines[i], inst);
+        printf("[%s] -> 0x%02x\n", preprocessed_lines[i], inst & 0xff);
     }
 }

@@ -9,7 +9,7 @@
 #include "processor.h"
 #include "constant.h"
 
-#define KEYWORDS 17
+#define KEYWORDS 18
 
 // A list of keywords with simple syntax
 // (i.e. a keyword followed by a register)
