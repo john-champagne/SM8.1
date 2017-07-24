@@ -94,12 +94,31 @@ int assemble_mov(char* line){
         return -1;
 }
 
+int assemble_ld(char* line) {
+    int constant = get_constant(next_word(line));
+    if (constant != CONSTANT_ERROR)
+        return 0x80 | (int8_t)constant;
+    return -1;
+}
+
+int assemble_throw(char* line) {
+    int constant = get_constant(next_word(line));
+    if (constant != CONSTANT_ERROR)
+        return (int8_t)constant;
+    return -1;
+}
+
 // assembles a line of code into machine code.
 int assemble(char* line) {
     int instruction = get_instruction(line);
     if (instruction == -1) {
-       if (string_match(line, "mov"))
+        if (string_match(line, "mov"))
             return assemble_mov(line);
+        else if (string_match(line, "ld"))
+            return assemble_ld(line);
+        else if (string_match(line, "throw"))
+            return assemble_throw(line);
+        return -1;
     }
     int reg = get_register(line);
     if (reg != -1 && instruction != -1)
