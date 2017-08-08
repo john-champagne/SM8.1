@@ -86,20 +86,20 @@ void process_arithmetic(uint8_t inst){
 void process_memory(inst) {
     int op = 0x3 & (inst >> 2);
     int rn = 0x3 & inst;
-    int rx = reg[rn];
-    switch (op) {
-        case 0: 
-            reg[0] = mem[rx];
-            break;
-        case 1:
-            mem[rx] = reg[0];
-            break;
-        case 2:
-            reg[0] = rx;
-            break;
-        case 3:
-            reg[rn] = reg[0];
-            break;
+    if (BIT(inst,4)) {      // checks for a mov instruction
+        int ra = (0x3 << 2) & inst;
+        reg[rn] = reg[ra];
+    }
+    else {
+        int rx = reg[rn];
+        switch (op) {
+            case 0: 
+                reg[0] = mem[rx];
+                break;
+            case 1:
+                mem[rx] = reg[0];
+                break;
+        }
     }
 }
 
