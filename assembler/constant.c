@@ -21,6 +21,8 @@ int get_constant(char* line) {
         return get_dec_constant(line + 1) * -1;
     else if (isdigit(line[0]))
         return get_dec_constant(line);
+    else if (string_match(line, "_"))
+        return get_pointer_from_line(line);
     else
         return CONSTANT_ERROR;
 }
