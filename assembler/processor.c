@@ -80,18 +80,14 @@ int get_register(char* line) {
 int assemble_mov(char* line){
     char* regs = next_word(line);
     int lreg, rreg;
+    // string should be of the form 'Y,X'
     if (strlen(regs) >= 3 && regs[1] == ',') {
-        lreg = regs[0] - 'A';
-        rreg = regs[2] - 'A';
+        lreg = 0x3 & (regs[0] - 'A');
+        rreg = 0x3 & (regs[2] - 'A');
     }
     else
         return -1;
-    if (lreg == 0)
-        return 0x2c | rreg;
-    else if (rreg == 0)
-        return 0x28 | lreg;
-    else
-        return -1;
+    return 0x30 | ( lreg << 2) | rreg;  // 0011 LL RR is returned.
 }
 
 int assemble_ld(char* line) {
